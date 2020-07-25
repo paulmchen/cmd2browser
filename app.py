@@ -4,6 +4,8 @@ from collections import OrderedDict
 import subprocess
 
 app = Flask('flaskshell')
+# add your client IPs to the list to enable your client to get command execution
+# outputs from your browser
 ip_whitelist = ['192.168.1.2', '192.168.1.3', '127.0.0.1']
 
 error_404_msg = """<title>404 Not Found</title>
@@ -15,6 +17,7 @@ error_404_msg = """<title>404 Not Found</title>
 
 def valid_ip():
     client = request.remote_addr
+    print("The remote client address:", client)
     if client in ip_whitelist:
         return True
     else:
