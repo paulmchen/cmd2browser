@@ -14,7 +14,10 @@ error_404_msg = """<title>404 Not Found</title>
                If you entered the URL manually please check your
                spelling and try again.</p>""", 404
 
-
+#
+# Validate client IP, only ips defined in the white list will be allowed to connect
+# to the server, otherwise the browser will return 404 error
+#
 def valid_ip():
     client = request.remote_addr
     print("The remote client address:", client)
@@ -23,13 +26,21 @@ def valid_ip():
     else:
         return False
 
-
+#
+# A utilities to replace line feed and spaces with ASCII code that HTML output can
+# be formatted properly
+#
 def replace_all(text, dic):
     for i, j in dic.items():
         text = text.replace(i, j)
     return text
 
 
+#
+# Execute a command using shell=True mode.
+# It is necessary to use the white list to control which clients can
+# be allowed to access the server
+#
 def exec_command(command):
     result_success = subprocess.check_output(
         [command], stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
@@ -38,7 +49,7 @@ def exec_command(command):
     return replace_all(result_success, rep)
 
 
-# call command line ls command
+# Example: call command line ls command
 @app.route('/ls/')
 def get_ls():
     if valid_ip():
@@ -54,7 +65,7 @@ def get_ls():
         return error_404_msg
 
 
-# call command line docker command
+# Example: call command line docker command
 @app.route('/docker_ps/')
 def get_docker_ps():
     if valid_ip():
