@@ -14,6 +14,7 @@ error_404_msg = """<title>404 Not Found</title>
                If you entered the URL manually please check your
                spelling and try again.</p>""", 404
 
+
 #
 # Validate client IP, only ips defined in the white list will be allowed to connect
 # to the server, otherwise the browser will return 404 error
@@ -25,6 +26,7 @@ def valid_ip():
         return True
     else:
         return False
+
 
 #
 # A utilities to replace line feed and spaces with ASCII code that HTML output can
