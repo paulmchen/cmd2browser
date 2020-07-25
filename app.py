@@ -33,7 +33,8 @@ def replace_all(text, dic):
 def exec_command(command):
     result_success = subprocess.check_output(
         [command], stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
-    rep = OrderedDict([("[0;32m", "<br/>"), ("[0;33m", "<br/>"), ("[0m", ""), ("\r\n", "<br/>"), ("\n", "<br/>")])
+    rep = OrderedDict([("[0;32m", "<br/>"), ("[0;33m", "<br/>"), ("[0m", "&nbsp;"), ("\r\n", "<br/>"),
+                       ("\n", "<br/>"), (" ", "&nbsp;")])
     return replace_all(result_success, rep)
 
 
@@ -57,7 +58,7 @@ def get_ls():
 @app.route('/docker_ps/')
 def get_docker_ps():
     if valid_ip():
-        command_success = "docker ps -a"
+        command_success = "docker images"
         try:
             result_success = exec_command(command_success)
 
