@@ -27,5 +27,5 @@ Set up the code
 
 ```shell
   1. http://127.0.0.1:5000/ls/
-  1. http://127.0.0.1:5000/docker_ps/
+  2. http://127.0.0.1:5000/docker_ps/
 ```
