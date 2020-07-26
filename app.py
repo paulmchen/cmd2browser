@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 from collections import OrderedDict
+
 import subprocess
 
 app = Flask('flaskshell')
@@ -52,13 +53,11 @@ def exec_command(command):
 
 
 # Example: call command line ls command
-@app.route('/ls/')
+@app.route('/ls/', methods=['GET'])
 def get_ls():
     if valid_ip():
-        command_success = "ls -al"
         try:
-            result_success = exec_command(command_success)
-
+            result_success = exec_command("ls -al")
         except subprocess.CalledProcessError as e:
             return "An error occurred while trying to fetch command results."
 
@@ -68,13 +67,12 @@ def get_ls():
 
 
 # Example: call command line docker command
-@app.route('/docker_ps/')
+@app.route('/docker_ps/', methods=['GET'])
 def get_docker_ps():
     if valid_ip():
         command_success = "docker images"
         try:
-            result_success = exec_command(command_success)
-
+            result_success = exec_command("docker ps -a")
         except subprocess.CalledProcessError as e:
             return "An error occurred while trying to fetch command results."
 
