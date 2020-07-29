@@ -45,8 +45,7 @@ Set up the code
             result_success = exec_command("kubectl get pods")
         except subprocess.CalledProcessError as e:
             return "An error occurred while trying to fetch command results."
-
-        return '%s' % result_success
+        return result_success
     else:
         return error_404_msg
 
