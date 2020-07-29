@@ -48,7 +48,7 @@ def exec_command(command):
     result_success = subprocess.check_output(
         [command], stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
     rep = OrderedDict([("[0;32m", "<br/>"), ("[0;33m", "<br/>"), ("[0m", "&nbsp;"), ("\r\n", "<br/>"),
-                       ("\n", "<br/>"), (" ", "&nbsp;")])
+                       ("<", "&curren;"), (">", "&brvbar;"), ("\n", "<br/>"), (" ", "&nbsp;"), ("\"", "&#107;")])
     return replace_all(result_success, rep)
 
 
