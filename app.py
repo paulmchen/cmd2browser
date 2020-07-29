@@ -49,6 +49,7 @@ def exec_command(command):
         [command], stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
     rep = OrderedDict([("[0;32m", "<br/>"), ("[0;33m", "<br/>"), ("[0m", "&nbsp;"), ("\r\n", "<br/>"),
                        ("<", "&curren;"), (">", "&brvbar;"), ("\n", "<br/>"), (" ", "&nbsp;"), ("\"", "&#107;")])
+
     return replace_all(result_success, rep)
 
 
@@ -60,8 +61,7 @@ def get_ls():
             result_success = exec_command("ls -al")
         except subprocess.CalledProcessError as e:
             return "An error occurred while trying to fetch command results."
-
-        return '%s' % result_success
+        return result_success
     else:
         return error_404_msg
 
@@ -75,8 +75,7 @@ def get_docker_ps():
             result_success = exec_command("docker ps -a")
         except subprocess.CalledProcessError as e:
             return "An error occurred while trying to fetch command results."
-
-        return '%s' % result_success
+        return result_success
     else:
         return error_404_msg
 
