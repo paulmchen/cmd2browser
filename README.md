@@ -37,19 +37,34 @@ Set up the code
 ```
 - To add a new command line call and then send its output to a web browser, you can create a new def function in app.py. For example, to call a system command "kubectl get pods", add the following 'def' to app.py:
 ```shell
-  # Example: call 'kubectl get pods' command
-  @app.route('/kc_pods/', methods=['GET'])
+  @app.route('/kc_pods/')
   def get_kc_pods():
-    if valid_ip():
+    if util.valid_ip():
         try:
             result_success = exec_command("kubectl get pods")
         except subprocess.CalledProcessError as e:
-            return "An error occurred while trying to fetch command results."
+            return message.error_500_msg
         return result_success
     else:
-        return error_404_msg
+        return message.error_404_msg
 
 ```
+- To support a command that may not return results immediately, you can use `exec_command_async` function instead.
+`exec_command_async` takes 2 input parameters. The first parameter is the command that you want to run, for example, `top`, the 2nd parameter `exec_time_in_seconds` is the elapse time in second how long it needs to wait before the browser session should wait to fetch outputs and then terminate the process of the command. Note: ensure that you set a proper value of the  `exec_time_in_seconds` to avoid from the command process being terminated before it is completed. 
+```shell
+# Example: call async command call e.g. top
+@app.route('/top/')
+def get_top():
+    if util.valid_ip():
+        try:
+            result_success = exec_command_async("top", 1)
+        except subprocess.CalledProcessError as e:
+            return message.error_500_msg
+        return result_success
+    else:
+        return message.error_404_msg
+```
+
 Launch the following URL to verify your new command line execution from your favourite browser:
 ```shell
 http://127.0.0.1:5000/kc_pods/
