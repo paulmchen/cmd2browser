@@ -23,13 +23,13 @@ def exec_command_async(command, exec_time_in_seconds):
     try:
         temp_out_file_name = tempfile.NamedTemporaryFile().name
         fout = open(temp_out_file_name, "w")
-        proc = subprocess.Popen(command, stdout=fout)
+        proc = subprocess.Popen(command, shell=True, stdout=fout)
         # wait for a few seconds
         time.sleep(exec_time_in_seconds)
         # stop the process
         proc.kill()
         fout.close()
-        fin = open(temp_out_file_name, "r")
+        fin = open(temp_out_file_name, "rb")
         output = fin.read()
         fin.close()
 

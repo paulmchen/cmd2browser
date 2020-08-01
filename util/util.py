@@ -1,6 +1,7 @@
 from flask import request
 from collections import OrderedDict
 import os
+import re
 import config
 
 
@@ -18,10 +19,19 @@ def valid_ip():
 
 
 #
+# Delete ansi encoding from a text
+#
+def escape_ansi(text):
+    ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+    return ansi_escape.sub('', text)
+
+
+#
 # A utilities to replace line feed and spaces with ASCII code that HTML output can
 # be formatted properly
 #
 def replace_all(text, dic):
+    text = escape_ansi(text)
     for i, j in dic.items():
         text = text.replace(i, j)
     return text
@@ -29,7 +39,8 @@ def replace_all(text, dic):
 
 def get_replace_dic():
     rep = OrderedDict([("[0;32m", "<br/>"), ("[0;33m", "<br/>"), ("[0m", "&nbsp;"), ("\r\n", "<br/>"),
-                       ("<", "&curren;"), (">", "&brvbar;"), ("\n", "<br/>"), (" ", "&nbsp;"), ("\"", "&#107;")])
+                       ("<", "&curren;"), (">", "&brvbar;"), ("\n", "<br/>"), (" ", "&nbsp;"),
+                       ("\"", "&#107;"), ("=(B", ""), ("(B", " ")])
     return rep
 
 
