@@ -41,7 +41,7 @@ Set up the code
   def get_kc_pods():
     if util.valid_ip():
         try:
-            result_success = exec_command("kubectl get pods")
+            result_success = util.exec_command("kubectl get pods")
         except subprocess.CalledProcessError as e:
             return message.error_500_msg
         return result_success
@@ -57,7 +57,7 @@ Set up the code
   def get_top():
     if util.valid_ip():
         try:
-            result_success = exec_command_async("top", 2)
+            result_success = util.exec_command_async("top", 2)
         except subprocess.CalledProcessError as e:
             return message.error_500_msg
         return result_success
