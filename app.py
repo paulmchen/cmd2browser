@@ -70,7 +70,6 @@ def get_ls():
 @app.route('/docker_ps/', methods=['GET'])
 def get_docker_ps():
     if valid_ip():
-        command_success = "docker images"
         try:
             result_success = exec_command("docker ps -a")
         except subprocess.CalledProcessError as e:
