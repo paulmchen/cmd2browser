@@ -1,42 +1,12 @@
 from flask import Flask
-from flask import request
-from collections import OrderedDict
-
 import subprocess
+import time
+import tempfile
+import util
+import message
+
 
 app = Flask('flaskshell')
-# add your client IPs to the list to enable your client to get command execution
-# outputs from your browser
-ip_whitelist = ['192.168.1.2', '192.168.1.3', '127.0.0.1']
-
-error_404_msg = """<title>404 Not Found</title>
-               <h1>Not Found</h1>
-               <p>The requested URL was not found on the server.
-               If you entered the URL manually please check your
-               spelling and try again.</p>""", 404
-
-
-#
-# Validate client IP, only ips defined in the white list will be allowed to connect
-# to the server, otherwise the browser will return 404 error
-#
-def valid_ip():
-    client = request.remote_addr
-    print("The remote client address:", client)
-    if client in ip_whitelist:
-        return True
-    else:
-        return False
-
-
-#
-# A utilities to replace line feed and spaces with ASCII code that HTML output can
-# be formatted properly
-#
-def replace_all(text, dic):
-    for i, j in dic.items():
-        text = text.replace(i, j)
-    return text
 
 
 #
@@ -47,36 +17,73 @@ def replace_all(text, dic):
 def exec_command(command):
     result_success = subprocess.check_output(
         [command], stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
-    rep = OrderedDict([("[0;32m", "<br/>"), ("[0;33m", "<br/>"), ("[0m", "&nbsp;"), ("\r\n", "<br/>"),
-                       ("<", "&curren;"), (">", "&brvbar;"), ("\n", "<br/>"), (" ", "&nbsp;"), ("\"", "&#107;")])
+    return util.replace_all(result_success, util.get_replace_dic())
 
-    return replace_all(result_success, rep)
+
+#
+# Execute an async command. The process is to be killed after
+# the command is run in exec_time_in_seconds
+#
+def exec_command_async(command, exec_time_in_seconds):
+    try:
+        temp_out_file_name = tempfile.NamedTemporaryFile().name
+        fout = open(temp_out_file_name, "w")
+        proc = subprocess.Popen(command, stdout=fout)
+        # wait for a few seconds
+        time.sleep(exec_time_in_seconds)
+        # stop the process
+        proc.kill()
+        fout.close()
+        fin = open(temp_out_file_name, "r")
+        output = fin.read()
+        fin.close()
+
+        # remove the temp file
+        util.delete_file(temp_out_file_name)
+        return util.replace_all(output, util.get_replace_dic())
+    except subprocess.SubprocessError:
+        proc.kill()
+        outs, errs = proc.communicate()
+        return errs
 
 
 # Example: call command line ls command
-@app.route('/ls/', methods=['GET'])
+@app.route('/ls/')
 def get_ls():
-    if valid_ip():
+    if util.valid_ip():
         try:
             result_success = exec_command("ls -al")
         except subprocess.CalledProcessError as e:
-            return "An error occurred while trying to fetch command results."
+            return message.error_500_msg
         return result_success
     else:
-        return error_404_msg
+        return message.error_404_msg
 
 
 # Example: call command line docker command
-@app.route('/docker_ps/', methods=['GET'])
+@app.route('/docker_ps/')
 def get_docker_ps():
-    if valid_ip():
+    if util.valid_ip():
         try:
             result_success = exec_command("docker ps -a")
         except subprocess.CalledProcessError as e:
-            return "An error occurred while trying to fetch command results."
+            return message.error_500_msg
         return result_success
     else:
-        return error_404_msg
+        return message.error_404_msg
+
+
+# Example: call async command call e.g. top
+@app.route('/top/')
+def get_top():
+    if util.valid_ip():
+        try:
+            result_success = exec_command_async("top", 2)
+        except subprocess.CalledProcessError as e:
+            return message.error_500_msg
+        return result_success
+    else:
+        return message.error_404_msg
 
 
 if __name__ == '__main__':
