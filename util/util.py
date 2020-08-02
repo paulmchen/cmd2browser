@@ -38,7 +38,7 @@ def replace_all(text, dic):
 
 
 def get_replace_dic():
-    rep = OrderedDict([("<", "&curren;"), (">", "&brvbar;"), ("\n", "<br/>"), (" ", "&nbsp;"), ("\"", "&#107;")
+    rep = OrderedDict([("<", "&curren;"), (">", "&brvbar;"), ("\n", "<br/>"), (" ", "&nbsp;"), ("\"", "&#107;"),
                       ("=(B", ""), ("(B', "")])
     return rep
 
