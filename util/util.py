@@ -27,7 +27,7 @@ def escape_ansi(text):
 
 
 #
-# A utilities to replace line feed and spaces with ASCII code that HTML output can
+# Utilities to replace line feed and spaces with ASCII code that HTML output can
 # be formatted properly
 #
 def replace_all(text, dic):
@@ -38,9 +38,7 @@ def replace_all(text, dic):
 
 
 def get_replace_dic():
-    rep = OrderedDict([("[0;32m", "<br/>"), ("[0;33m", "<br/>"), ("[0m", "&nbsp;"), ("\r\n", "<br/>"),
-                       ("<", "&curren;"), (">", "&brvbar;"), ("\n", "<br/>"), (" ", "&nbsp;"),
-                       ("\"", "&#107;"), ("=(B", ""), ("(B", " ")])
+    rep = OrderedDict([("<", "&curren;"), (">", "&brvbar;"), ("\n", "<br/>"), (" ", "&nbsp;"), ("\"", "&#107;")])
     return rep
 
 

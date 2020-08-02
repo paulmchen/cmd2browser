@@ -7,7 +7,7 @@ import message
 app = Flask('flaskshell')
 
 
-# Example: call command line ls command
+# Example: call ls command
 @app.route('/ls/')
 def get_ls():
     if util.valid_ip():
@@ -20,12 +20,25 @@ def get_ls():
         return message.error_404_msg
 
 
-# Example: call command line docker command
+# Example: call docker command
 @app.route('/docker_ps/')
 def get_docker_ps():
     if util.valid_ip():
         try:
             result_success = util.exec_command("docker ps -a")
+        except subprocess.CalledProcessError as e:
+            return message.error_500_msg
+        return result_success
+    else:
+        return message.error_404_msg
+
+
+# Example: call netstat command
+@app.route('/netstat/')
+def get_netstat():
+    if util.valid_ip():
+        try:
+            result_success = util.exec_command("netstat -tnlv")
         except subprocess.CalledProcessError as e:
             return message.error_500_msg
         return result_success
