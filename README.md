@@ -31,7 +31,7 @@ Set up the code
 ```
 
 ## Tips
-- When you are connecting to the server from another client IP, you would need to add your client IP address to the white list in app.py. By default, the server will reject any non-local connections from any remote clients. Modify the following line by adding your client IP address to the white list of the server:
+- When you are connecting to the server from another client IP, you would need to add your client IP address to the white list in `config/config.py`. By default, the server will reject any non-local connections from any remote clients. Modify the following line by adding your client IP address to the white list of the server:
 ```shell
   ip_whitelist = ['192.168.1.2', '192.168.1.3', '127.0.0.1']
 ```
@@ -52,7 +52,7 @@ Set up the code
 - To support a command that may not return results immediately, you can use `exec_command_async` function instead.
 `exec_command_async` takes 2 input parameters. The first parameter is the command that you want to run, for example, `top`, the 2nd parameter `exec_time_in_seconds` is the elapse time in second how long it needs to wait before the browser session should wait to fetch outputs and then terminate the process of the command. Note: ensure that you set a proper value of the  `exec_time_in_seconds` to avoid from the command process being terminated before it is completed. 
 ```shell
-  # Example: call async command call e.g. top
+  # Example: call async command, e.g. top
   @app.route('/top/')
   def get_top():
     if util.valid_ip():
