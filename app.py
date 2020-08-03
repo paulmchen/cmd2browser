@@ -1,8 +1,11 @@
+#
+# Execute system commands and display outputs to a browser
+#
 from flask import Flask
 import subprocess
-import util
-import message
 
+import command
+import message
 
 app = Flask('flaskshell')
 
@@ -11,7 +14,7 @@ app = Flask('flaskshell')
 @app.route('/ls/')
 def get_ls():
     try:
-        return util.exec_command("ls -al")
+        return command.run("ls -al")
     except subprocess.CalledProcessError as e:
         return message.error_500_msg
 
@@ -20,7 +23,7 @@ def get_ls():
 @app.route('/docker_ps/')
 def get_docker_ps():
     try:
-        return util.exec_command("docker ps -a")
+        return command.run("docker ps -a")
     except subprocess.CalledProcessError as e:
         return message.error_500_msg
 
@@ -29,16 +32,16 @@ def get_docker_ps():
 @app.route('/netstat/')
 def get_netstat():
     try:
-        return util.exec_command("netstat -tnlv")
+        return command.run("netstat -tnlv")
     except subprocess.CalledProcessError as e:
         return message.error_500_msg
 
 
-# Example: call async command call e.g. top
+# Example: call async command top
 @app.route('/top/')
 def get_top():
     try:
-        return util.exec_command_async("top", 1)
+        return command.run_async("top", 1)
     except subprocess.CalledProcessError as e:
         return message.error_500_msg
 

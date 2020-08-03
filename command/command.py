@@ -10,7 +10,7 @@ import message
 # It is necessary to use the white list to control which clients can
 # be allowed to access the server
 #
-def exec_command(command):
+def run(command):
     if util.valid_ip():
         result_success = subprocess.check_output(
             [command], stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
@@ -23,7 +23,7 @@ def exec_command(command):
 # Execute an async command. The process is to be killed after
 # the command is run in exec_time_in_seconds
 #
-def exec_command_async(command, exec_time_in_seconds):
+def run_async(command, exec_time_in_seconds):
     if util.valid_ip():
         try:
             temp_out_file_name = tempfile.NamedTemporaryFile().name
