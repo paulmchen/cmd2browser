@@ -2,7 +2,7 @@ from flask import request
 from collections import OrderedDict
 import os
 import re
-import config
+import yaml
 
 
 #
@@ -12,7 +12,7 @@ import config
 def valid_ip():
     client = request.remote_addr
     print("The remote client address:", client)
-    if client in config.ip_whitelist:
+    if client in config.get("ip_whitelist"):
         return True
     else:
         return False
@@ -46,3 +46,16 @@ def get_replace_dic():
 def delete_file(filename):
     if os.path.exists(filename):
         os.remove(filename)
+
+
+def load_config(config_file):
+    with open(config_file, 'r') as stream:
+        return yaml.load(stream, Loader=yaml.FullLoader)
+
+
+#
+# Initially load config.yaml
+#
+config = load_config("./config/config.yaml")
+
+

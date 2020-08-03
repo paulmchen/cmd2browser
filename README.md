@@ -8,10 +8,11 @@ A python application that can be modified to execute system commands and then di
 Install Python (v3) and PIP:
 1. Visit https://linuxize.com/post/how-to-install-python-3-7-on-ubuntu-18-04/ to learn how to instll Python
 1. Visit https://www.shellhacks.com/python-install-pip-mac-ubuntu-centos/ to learn how to instqll PIP
-1. Run the following command to install Python flask module:  
+1. Run the following command to install Python flask and PYyaml modules:  
 
 ```shell
   pip install flask
+  pip install PYyaml
 ```
 
 ## Install & Launch the App
@@ -31,16 +32,16 @@ Set up the code
 ```
 
 ## Tips
-- When you are connecting to the server from another client IP, you would need to add your client IP address to the white list in `config/config.py`. By default, the server will reject any non-local connections from any remote clients. Modify the following line by adding your client IP address to the white list of the server:
+- When you are connecting to the server from another client IP, you would need to add your client IP address to the white list in `config/config.yaml`. By default, the server will reject any non-local connections from any remote clients. Modify the following line by adding your client IP address to the white list of the server:
 ```shell
-  ip_whitelist = ['192.168.1.2', '192.168.1.3', '127.0.0.1']
+  ip_whitelist: '[''192.168.1.2'', ''192.168.1.3'', ''127.0.0.1'']'
 ```
 - To add a new command line call and then send its output to a web browser, you can create a new def function in app.py. For example, to call a system command "kubectl get pods", add the following 'def' to app.py:
 ```shell
   @app.route('/kc_pods/')
   def get_kc_pods():
       try:
-          return util.exec_command("kubectl get pods")
+          return command.run("kubectl get pods")
       except subprocess.CalledProcessError as e:
           return message.error_500_msg
 ```
@@ -51,7 +52,7 @@ Set up the code
   @app.route('/top/')
   def get_top():
       try:
-          return util.exec_command_async("top", 2)
+          return command.run_async("top", 2)
       except subprocess.CalledProcessError as e:
           return message.error_500_msg
 ```
