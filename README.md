@@ -3,6 +3,8 @@ Execute system commands and display outputs to a browser
 
 A python application that can be modified to execute system commands and then display the outputs to a Web browser.
 
+[![github stats](https://github-readme-stats.vercel.app/api?username=anuraghazra)](https://github.com/anuraghazra/github-readme-stats)
+
 ## Install Prerequisites
 
 Install Python (v3) and PIP:
