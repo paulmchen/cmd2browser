@@ -18,12 +18,14 @@ Install Python (v3) and PIP:
 ```
 
 ## Install and Launch the App
-Set up the code
 1. Download the code
+
 ```shell
    git clone https://github.com/paulmchen/cmd2browser.git
 ```
+
 1. Go to /cmd2browser folder and Launch the app
+
 ```shell
   python app.py
 ```
