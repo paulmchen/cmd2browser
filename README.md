@@ -17,7 +17,7 @@ Install Python (v3) and PIP:
   pip install PYyaml
 ```
 
-## Install & Launch the App
+## Install and Launch the App
 Set up the code
 1. Download the Python source file /cmd2browser/app.py and place it in a new folder
 1. Launch the app
