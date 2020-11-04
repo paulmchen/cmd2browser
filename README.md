@@ -53,7 +53,7 @@ Install Python (v3) and PIP:
           return message.error_500_msg
 ```
 - To support a command that may not return results immediately, you can use `exec_command_async` function instead.
-`exec_command_async` takes 2 input parameters. The first parameter is the command that you want to run, for example, `top`, the 2nd parameter `exec_time_in_seconds` is the elapse time in second how long it needs to wait before the browser session should wait to fetch outputs and then terminate the process of the command. Note: ensure that you set a proper value of the  `exec_time_in_seconds` to avoid from the command process being terminated before it is completed. 
+`exec_command_async` takes 2 input parameters. The first parameter is the command that you want to run, for example, `top`, the 2nd parameter `exec_time_in_seconds` is the elapse time to indicate how long it needs to wait in seconds before the browser session should resume to fetch outputs and then terminate the process of the command. Note: ensure that you set a proper value of the  `exec_time_in_seconds` to avoid from command process being terminated before it is completed. 
 ```shell
   # Example: call async command, e.g. top
   @app.route('/top/')
