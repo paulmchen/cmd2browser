@@ -8,8 +8,8 @@ A python application that can be modified to execute system commands and then di
 ## Install Prerequisites
 
 Install Python (v3) and PIP:
-1. Visit https://linuxize.com/post/how-to-install-python-3-7-on-ubuntu-18-04/ to learn how to instll Python
-1. Visit https://www.shellhacks.com/python-install-pip-mac-ubuntu-centos/ to learn how to instqll PIP
+1. Visit https://linuxize.com/post/how-to-install-python-3-7-on-ubuntu-18-04/ to learn how to install Python
+1. Visit https://www.shellhacks.com/python-install-pip-mac-ubuntu-centos/ to learn how to install PIP
 1. Run the following commands to install Python flask and PYyaml modules:  
 
 ```shell
