@@ -10,7 +10,7 @@ import message
 app = Flask('flaskshell')
 
 
-# Example: call ls command
+# Example: calls ls command
 @app.route('/ls/')
 def get_ls():
     try:
@@ -19,7 +19,7 @@ def get_ls():
         return message.error_500_msg
 
 
-# Example: call docker command
+# Example: calls docker command
 @app.route('/docker_ps/')
 def get_docker_ps():
     try:
@@ -28,7 +28,7 @@ def get_docker_ps():
         return message.error_500_msg
 
 
-# Example: call netstat command
+# Example: calls netstat command
 @app.route('/netstat/')
 def get_netstat():
     try:
@@ -37,7 +37,7 @@ def get_netstat():
         return message.error_500_msg
 
 
-# Example: call async command top
+# Example: calls async command top
 @app.route('/top/')
 def get_top():
     try:
